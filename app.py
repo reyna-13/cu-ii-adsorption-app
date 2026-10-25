@@ -1,6 +1,164 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+# ==========================================
+# FUTURISTIC AI DASHBOARD THEME
+# ==========================================
+
+st.markdown("""
+<style>
+
+/* Main background */
+.stApp {
+    background: #050505;
+    color: #FFFFFF;
+}
+
+/* Subtle animated glowing dots */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    background-image:
+        radial-gradient(circle, rgba(255, 55, 55, 0.45) 1px, transparent 2px),
+        radial-gradient(circle, rgba(55, 130, 255, 0.40) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255, 145, 45, 0.35) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.25) 1px, transparent 2px);
+
+    background-size:
+        110px 110px,
+        150px 150px,
+        190px 190px,
+        230px 230px;
+
+    background-position:
+        0 0,
+        40px 60px,
+        80px 20px,
+        20px 100px;
+
+    animation: particles 35s linear infinite;
+}
+
+/* Keep the app content above the background */
+[data-testid="stAppViewContainer"],
+[data-testid="stHeader"] {
+    background: transparent;
+}
+
+/* Animated particle movement */
+@keyframes particles {
+    0% {
+        background-position:
+            0 0, 40px 60px, 80px 20px, 20px 100px;
+    }
+    50% {
+        background-position:
+            55px 110px, 115px 135px, 175px 115px, 135px 215px;
+    }
+    100% {
+        background-position:
+            110px 220px, 190px 210px, 270px 210px, 250px 330px;
+    }
+}
+
+/* Main headings */
+h1, h2, h3 {
+    color: #FFFFFF !important;
+    letter-spacing: 0.5px;
+}
+
+/* Main title accent */
+h1 {
+    text-shadow: 0 0 14px rgba(55, 130, 255, 0.25);
+}
+
+/* Paragraphs and labels */
+p, label, .stMarkdown, [data-testid="stCaptionContainer"] {
+    color: #D6D6D6;
+}
+
+/* Metric cards */
+[data-testid="stMetric"] {
+    background: rgba(20, 20, 24, 0.88);
+    border: 1px solid rgba(55, 130, 255, 0.45);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 0 12px rgba(55, 130, 255, 0.08);
+}
+
+/* Metric values */
+[data-testid="stMetricValue"] {
+    color: #FF8C32;
+}
+
+/* Buttons */
+.stButton > button {
+    background: #FF3838;
+    color: white;
+    border: 1px solid #FF5555;
+    border-radius: 9px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+/* Button hover effect */
+.stButton > button:hover {
+    background: #2878FF;
+    border-color: #5B96FF;
+    color: white;
+    box-shadow: 0 0 15px rgba(40, 120, 255, 0.4);
+}
+
+/* Input fields */
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox div[data-baseweb="select"],
+.stTextArea textarea {
+    background-color: #151519;
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: #0C0C10;
+    border-right: 1px solid rgba(255, 56, 56, 0.35);
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab"] {
+    color: #FFFFFF;
+}
+
+.stTabs [aria-selected="true"] {
+    border-bottom-color: #FF3838 !important;
+}
+
+/* Data tables and chart containers */
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+    border: 1px solid #292933;
+    border-radius: 10px;
+}
+
+/* Dividers */
+hr {
+    border-color: #292933;
+}
+
+/* Respect reduced-motion accessibility settings */
+@media (prefers-reduced-motion: reduce) {
+    .stApp::before {
+        animation: none;
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
 from pathlib import Path
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
