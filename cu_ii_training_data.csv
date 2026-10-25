@@ -1,0 +1,68 @@
+Record_ ID,Paper_ID,Adsorbent_type,Synthesis_method,pH,Initial_Cu (mg/l),Contact_Time (min),Dose (g/L),qe(mg/g),Target_type,Eligibility_note
+R001,PesicBajic_2026,GO,Modified Hummers,5.0,1,20.0,0.1667,4.12,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R002,PesicBajic_2026,MGO,ModifiedHummers+Fe3O4,5.0,1,20.0,0.1667,3.49,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R003,Jiang_2024,GO,,5.1,10,20.0,0.5,68.2,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R004,Jiang_2024,COS-rGO,,5.1,10,20.0,0.5,84.7,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R005,Yu_2021,rGO membrane ,Modified Hummers,6.0,50,240.0,0.24,67.43,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R006,Yu_2021,rGO membrane ,Modified Hummers,6.0,75,240.0,0.24,113.25,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R007,Yu_2021,rGO membrane ,Modified Hummers,6.0,100,240.0,0.24,149.25,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R008,Yu_2021,rGO membrane ,Modified Hummers,6.0,125,240.0,0.24,163.0,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R011,Qiao_2025,rGO,Hydrothermal+Freeze drying,5.0,300,,,310.81,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R013,Khumalo_2025,CCNC-SiO2-GO,Sol-Gel method,5.5,200,240.0,,172.0,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R014,Khumalo_2026,CCNC-SiO2-GO,Sol-Gel method,5.5,400,240.0,,214.0,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R015,Khumalo_2027,CCNC-SiO2-GO,Sol-Gel method,5.5,600,240.0,,284.0,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R018,Ortelli_2026,GO,Modified Hummers,4.5,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R019,Ortelli_2026,GO,Modified Hummers,4.6,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R020,Ortelli_2026,GO,Modified Hummers,4.7,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R021,Ortelli_2026,GO,Modified Hummers,4.8,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R022,Ortelli_2026,GO,Modified Hummers,4.9,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R023,Ortelli_2026,GO,Modified Hummers,5.0,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R024,Ortelli_2026,GO,Modified Hummers,5.1,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R025,Ortelli_2026,GO,Modified Hummers,5.2,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R026,Ortelli_2026,GO,Modified Hummers,5.3,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R027,Ortelli_2026,GO,Modified Hummers,5.4,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R028,Ortelli_2026,GO,Modified Hummers,5.5,10,60.0,1.0,15.8,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R029,Ortelli_2026,TiO2,TiO2 powder,4.5,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R030,Ortelli_2026,TiO2,TiO2 powder,4.6,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R031,Ortelli_2026,TiO2,TiO2 powder,4.7,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R032,Ortelli_2026,TiO2,TiO2 powder,4.8,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R033,Ortelli_2026,TiO2,TiO2 powder,4.9,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R034,Ortelli_2026,TiO2,TiO2 powder,5.0,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R035,Ortelli_2026,TiO2,TiO2 powder,5.1,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R036,Ortelli_2026,TiO2,TiO2 powder,5.2,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R037,Ortelli_2026,TiO2,TiO2 powder,5.3,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R038,Ortelli_2026,TiO2,TiO2 powder,5.4,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R039,Ortelli_2026,TiO2,TiO2 powder,5.5,10,60.0,1.0,5.6,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R040,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,4.5,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R041,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,4.6,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R042,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,4.7,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R043,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,4.8,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R044,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,4.9,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R045,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,5.0,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R046,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,5.1,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R047,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,5.2,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R048,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,5.3,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R049,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,5.4,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R050,Ortelli_2026,GO-TiO2 (9%),Modified Hummers + sonochemical activation,5.5,10,60.0,1.0,4.5,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R051,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,4.5,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R052,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,4.6,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R053,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,4.7,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R054,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,4.8,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R055,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,4.9,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R056,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,5.0,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R057,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,5.1,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R058,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,5.2,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R059,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,5.3,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R060,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,5.4,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R061,Ortelli_2026,GO-TiO2(16%),Modified Hummers + sonochemical activation,5.5,10,60.0,1.0,8.4,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R062,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,4.5,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R063,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,4.6,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R064,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,4.7,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R065,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,4.8,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R066,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,4.9,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R067,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,5.0,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R068,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,5.1,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R069,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,5.2,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R070,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,5.3,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R071,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,5.4,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
+R072,Ortelli_2026,GO-TiO2 (25%),Modified Hummers + sonochemical activation,5.5,10,60.0,1.0,5.9,Needs source-level verification,Target exists; verify row-level source and qe definition before final use
