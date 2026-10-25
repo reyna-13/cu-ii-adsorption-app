@@ -1,164 +1,227 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+```python
 # ==========================================
-# FUTURISTIC AI DASHBOARD THEME
+# PREMIUM DARK DASHBOARD THEME
 # ==========================================
 
 st.markdown("""
 <style>
 
-/* Main background */
+/* ===== SUBTLE BLACK GRADIENT BACKGROUND ===== */
+
 .stApp {
-    background: #050505;
+    background:
+        radial-gradient(
+            ellipse at 10% 0%,
+            rgba(80, 35, 45, 0.20),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 90% 15%,
+            rgba(30, 50, 85, 0.18),
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #080808 0%,
+            #101014 45%,
+            #08090D 100%
+        );
+    background-attachment: fixed;
     color: #FFFFFF;
 }
 
-/* Subtle animated glowing dots */
-.stApp::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+/* ===== CLEAN HEADER ===== */
 
-    background-image:
-        radial-gradient(circle, rgba(255, 55, 55, 0.45) 1px, transparent 2px),
-        radial-gradient(circle, rgba(55, 130, 255, 0.40) 1px, transparent 2px),
-        radial-gradient(circle, rgba(255, 145, 45, 0.35) 1px, transparent 2px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.25) 1px, transparent 2px);
-
-    background-size:
-        110px 110px,
-        150px 150px,
-        190px 190px,
-        230px 230px;
-
-    background-position:
-        0 0,
-        40px 60px,
-        80px 20px,
-        20px 100px;
-
-    animation: particles 35s linear infinite;
+[data-testid="stHeader"] {
+    background: rgba(8, 8, 8, 0.55);
 }
 
-/* Keep the app content above the background */
-[data-testid="stAppViewContainer"],
-[data-testid="stHeader"] {
+[data-testid="stAppViewContainer"] {
     background: transparent;
 }
 
-/* Animated particle movement */
-@keyframes particles {
-    0% {
-        background-position:
-            0 0, 40px 60px, 80px 20px, 20px 100px;
-    }
-    50% {
-        background-position:
-            55px 110px, 115px 135px, 175px 115px, 135px 215px;
-    }
-    100% {
-        background-position:
-            110px 220px, 190px 210px, 270px 210px, 250px 330px;
-    }
-}
+/* ===== HEADINGS ===== */
 
-/* Main headings */
 h1, h2, h3 {
-    color: #FFFFFF !important;
-    letter-spacing: 0.5px;
+    color: #F5F5F5 !important;
+    letter-spacing: 0.3px;
 }
 
-/* Main title accent */
 h1 {
-    text-shadow: 0 0 14px rgba(55, 130, 255, 0.25);
+    text-shadow: 0 0 24px rgba(255, 60, 70, 0.10);
 }
 
-/* Paragraphs and labels */
-p, label, .stMarkdown, [data-testid="stCaptionContainer"] {
-    color: #D6D6D6;
+/* ===== BODY TEXT ===== */
+
+p, .stMarkdown, label,
+[data-testid="stCaptionContainer"] {
+    color: #D2D2D8;
 }
 
-/* Metric cards */
-[data-testid="stMetric"] {
-    background: rgba(20, 20, 24, 0.88);
-    border: 1px solid rgba(55, 130, 255, 0.45);
-    border-radius: 12px;
-    padding: 18px;
-    box-shadow: 0 0 12px rgba(55, 130, 255, 0.08);
+/* ===== SIDEBAR ===== */
+
+[data-testid="stSidebar"] {
+    background: linear-gradient(
+        180deg,
+        #111114 0%,
+        #09090B 100%
+    );
+    border-right: 1px solid #292930;
 }
 
-/* Metric values */
-[data-testid="stMetricValue"] {
-    color: #FF8C32;
-}
+/* ===== INPUTS: CHARCOAL GREY WITH BLACK TEXT ===== */
 
-/* Buttons */
-.stButton > button {
-    background: #FF3838;
-    color: white;
-    border: 1px solid #FF5555;
-    border-radius: 9px;
-    font-weight: 600;
-    transition: all 0.25s ease;
-}
-
-/* Button hover effect */
-.stButton > button:hover {
-    background: #2878FF;
-    border-color: #5B96FF;
-    color: white;
-    box-shadow: 0 0 15px rgba(40, 120, 255, 0.4);
-}
-
-/* Input fields */
+/* Text and number input fields */
 .stTextInput input,
 .stNumberInput input,
-.stSelectbox div[data-baseweb="select"],
 .stTextArea textarea {
-    background-color: #151519;
-    color: #FFFFFF;
-    border-radius: 8px;
+    background-color: #D8D8DE !important;
+    color: #111111 !important;
+    border: 1px solid #A5A5AE !important;
+    border-radius: 8px !important;
+    caret-color: #111111 !important;
 }
 
-/* Sidebar */
-[data-testid="stSidebar"] {
-    background: #0C0C10;
-    border-right: 1px solid rgba(255, 56, 56, 0.35);
+/* Placeholder text */
+.stTextInput input::placeholder,
+.stNumberInput input::placeholder,
+.stTextArea textarea::placeholder {
+    color: #45454C !important;
+    opacity: 1;
 }
 
-/* Tabs */
+/* Select boxes */
+.stSelectbox [data-baseweb="select"] > div,
+.stMultiSelect [data-baseweb="select"] > div {
+    background-color: #D8D8DE !important;
+    color: #111111 !important;
+    border-color: #A5A5AE !important;
+    border-radius: 8px !important;
+}
+
+/* Selected text inside dropdowns */
+.stSelectbox [data-baseweb="select"] *,
+.stMultiSelect [data-baseweb="select"] * {
+    color: #111111 !important;
+}
+
+/* Dropdown menu */
+[data-baseweb="popover"],
+[data-baseweb="menu"] {
+    background-color: #E2E2E7 !important;
+}
+
+[data-baseweb="menu"] *,
+[role="option"] {
+    color: #111111 !important;
+}
+
+/* ===== FILE UPLOAD AREA ===== */
+
+[data-testid="stFileUploader"] section {
+    background: rgba(205, 205, 214, 0.96) !important;
+    border: 1px dashed #777780 !important;
+    border-radius: 12px !important;
+}
+
+/* Text inside the upload area */
+[data-testid="stFileUploader"] section,
+[data-testid="stFileUploader"] section * {
+    color: #17171B !important;
+}
+
+/* Upload button */
+[data-testid="stFileUploader"] button {
+    background: #303038 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #50505A !important;
+    border-radius: 7px !important;
+}
+
+/* ===== PREDICTION BUTTONS ===== */
+
+.stButton > button,
+.stDownloadButton > button {
+    background: linear-gradient(
+        100deg,
+        #D92F40,
+        #F05A35
+    ) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    border-radius: 9px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover {
+    background: linear-gradient(
+        100deg,
+        #286CDE,
+        #408BFF
+    ) !important;
+    box-shadow: 0 0 18px rgba(55, 125, 255, 0.20);
+    transform: translateY(-1px);
+}
+
+/* ===== METRIC CARDS ===== */
+
+[data-testid="stMetric"] {
+    background: rgba(24, 24, 29, 0.88);
+    border: 1px solid #303039;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #B9BAC4 !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #FF9345 !important;
+}
+
+/* ===== TABS ===== */
+
 .stTabs [data-baseweb="tab"] {
-    color: #FFFFFF;
+    color: #C9CAD2;
 }
 
 .stTabs [aria-selected="true"] {
-    border-bottom-color: #FF3838 !important;
+    color: #FFFFFF !important;
+    border-bottom-color: #F04452 !important;
 }
 
-/* Data tables and chart containers */
+/* ===== TABLES ===== */
+
 [data-testid="stDataFrame"],
 [data-testid="stTable"] {
-    border: 1px solid #292933;
-    border-radius: 10px;
+    border: 1px solid #303039;
+    border-radius: 9px;
 }
 
-/* Dividers */
+/* ===== DIVIDERS ===== */
+
 hr {
-    border-color: #292933;
+    border-color: #303039 !important;
 }
 
-/* Respect reduced-motion accessibility settings */
+/* ===== ACCESSIBILITY ===== */
+
 @media (prefers-reduced-motion: reduce) {
-    .stApp::before {
-        animation: none;
+    .stButton > button,
+    .stDownloadButton > button {
+        transition: none;
     }
 }
 
 </style>
 """, unsafe_allow_html=True)
+```
 from pathlib import Path
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
