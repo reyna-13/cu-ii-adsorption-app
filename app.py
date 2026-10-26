@@ -24,7 +24,7 @@ st.set_page_config(
 
 
 # ============================================================
-# DESIGN: BLACK GRADIENT, GLOWING DOTS, COLOURED INPUTS
+# CUSTOM DESIGN
 # ============================================================
 
 st.markdown(
@@ -32,27 +32,10 @@ st.markdown(
     <style>
     .stApp {
         background:
-            radial-gradient(
-                ellipse at 12% 8%,
-                rgba(110, 25, 43, 0.20) 0%,
-                transparent 42%
-            ),
-            radial-gradient(
-                ellipse at 88% 15%,
-                rgba(28, 48, 95, 0.20) 0%,
-                transparent 45%
-            ),
-            radial-gradient(
-                ellipse at 55% 100%,
-                rgba(95, 48, 20, 0.09) 0%,
-                transparent 45%
-            ),
-            linear-gradient(
-                135deg,
-                #060607 0%,
-                #101014 48%,
-                #08080B 100%
-            ) !important;
+            radial-gradient(ellipse at 12% 8%, rgba(110,25,43,.20), transparent 42%),
+            radial-gradient(ellipse at 88% 15%, rgba(28,48,95,.20), transparent 45%),
+            radial-gradient(ellipse at 55% 100%, rgba(95,48,20,.09), transparent 45%),
+            linear-gradient(135deg, #060607 0%, #101014 48%, #08080B 100%) !important;
         background-attachment: fixed !important;
         color: #F5F5F7;
     }
@@ -65,10 +48,10 @@ st.markdown(
     }
 
     [data-testid="stHeader"] {
-        background: rgba(7, 7, 9, 0.65) !important;
+        background: rgba(7,7,9,.65) !important;
     }
 
-    /* ANIMATED GLOWING DOTS */
+    /* Animated glowing particles */
 
     .stApp::before {
         content: "";
@@ -78,79 +61,44 @@ st.markdown(
         height: 100%;
         pointer-events: none;
         z-index: 0;
-
         background-image:
-            radial-gradient(
-                circle,
-                rgba(255, 65, 78, 0.65) 1px,
-                transparent 2px
-            ),
-            radial-gradient(
-                circle,
-                rgba(65, 135, 255, 0.60) 1px,
-                transparent 2px
-            ),
-            radial-gradient(
-                circle,
-                rgba(255, 150, 65, 0.48) 1px,
-                transparent 2px
-            ),
-            radial-gradient(
-                circle,
-                rgba(255, 255, 255, 0.32) 1px,
-                transparent 2px
-            );
-
+            radial-gradient(circle, rgba(255,65,78,.65) 1px, transparent 2px),
+            radial-gradient(circle, rgba(65,135,255,.60) 1px, transparent 2px),
+            radial-gradient(circle, rgba(255,150,65,.48) 1px, transparent 2px),
+            radial-gradient(circle, rgba(255,255,255,.32) 1px, transparent 2px);
         background-size:
             135px 135px,
             180px 180px,
             225px 225px,
             265px 265px;
-
         background-position:
             0 0,
             45px 60px,
             100px 25px,
             30px 110px;
-
-        opacity: 0.45;
+        opacity: .38;
         animation: particleDrift 45s linear infinite;
     }
 
     @keyframes particleDrift {
         0% {
             background-position:
-                0 0,
-                45px 60px,
-                100px 25px,
-                30px 110px;
+                0 0, 45px 60px, 100px 25px, 30px 110px;
         }
-
         50% {
             background-position:
-                65px 90px,
-                125px 145px,
-                205px 105px,
-                155px 225px;
+                65px 90px, 125px 145px, 205px 105px, 155px 225px;
         }
-
         100% {
             background-position:
-                135px 180px,
-                225px 240px,
-                325px 205px,
-                295px 370px;
+                135px 180px, 225px 240px, 325px 205px, 295px 370px;
         }
     }
 
-    /* SIDEBAR */
+    /* Sidebar */
 
     [data-testid="stSidebar"] {
-        background: linear-gradient(
-            180deg,
-            #111115 0%,
-            #09090C 100%
-        ) !important;
+        background: linear-gradient(180deg, #111115, #09090C) !important;
         border-right: 1px solid #292932;
     }
 
@@ -160,15 +108,15 @@ st.markdown(
         color: #D1D1D8 !important;
     }
 
-    /* HEADINGS */
+    /* Text and headings */
 
     h1, h2, h3 {
         color: #F7F7FA !important;
-        letter-spacing: 0.2px;
+        letter-spacing: .2px;
     }
 
     h1 {
-        text-shadow: 0 0 24px rgba(255, 55, 70, 0.12);
+        text-shadow: 0 0 24px rgba(255,55,70,.12);
     }
 
     p, li, .stMarkdown {
@@ -179,7 +127,7 @@ st.markdown(
         color: #A7A7B2 !important;
     }
 
-    /* INPUT FIELDS: GREY BACKGROUND, BLACK TEXT */
+    /* Input fields */
 
     .stTextInput input,
     .stNumberInput input,
@@ -204,11 +152,11 @@ st.markdown(
         border-color: #A6A6B0 !important;
     }
 
-    /* SELECT BOXES */
+    /* Select boxes */
 
     .stSelectbox [data-baseweb="select"] > div,
     .stMultiSelect [data-baseweb="select"] > div {
-        background-color: #D8D8DE !important;
+        background: #D8D8DE !important;
         color: #111116 !important;
         border-color: #A6A6B0 !important;
         border-radius: 8px !important;
@@ -221,14 +169,14 @@ st.markdown(
 
     [data-baseweb="popover"],
     [data-baseweb="menu"] {
-        background-color: #E0E0E6 !important;
+        background: #E0E0E6 !important;
     }
 
     [role="option"] {
         color: #111116 !important;
     }
 
-    /* FILE UPLOAD AREA */
+    /* CSV uploader */
 
     [data-testid="stFileUploader"] section {
         background: #D8D8DE !important;
@@ -248,38 +196,30 @@ st.markdown(
         border-radius: 7px !important;
     }
 
-    /* BUTTONS */
+    /* Buttons */
 
     .stButton > button,
     .stDownloadButton > button {
-        background: linear-gradient(
-            105deg,
-            #D92F42 0%,
-            #F06435 100%
-        ) !important;
+        background: linear-gradient(105deg, #D92F42, #F06435) !important;
         color: #FFFFFF !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border: 1px solid rgba(255,255,255,.12) !important;
         border-radius: 9px !important;
         font-weight: 650 !important;
-        transition: all 0.22s ease-in-out;
+        transition: all .22s ease-in-out;
     }
 
     .stButton > button:hover,
     .stDownloadButton > button:hover {
-        background: linear-gradient(
-            105deg,
-            #286CDE 0%,
-            #438DFF 100%
-        ) !important;
+        background: linear-gradient(105deg, #286CDE, #438DFF) !important;
         color: #FFFFFF !important;
-        box-shadow: 0 0 18px rgba(55, 125, 255, 0.22);
+        box-shadow: 0 0 18px rgba(55,125,255,.22);
         transform: translateY(-1px);
     }
 
-    /* METRIC CARDS */
+    /* Metric cards */
 
     [data-testid="stMetric"] {
-        background: rgba(23, 23, 29, 0.90);
+        background: rgba(23,23,29,.90);
         border: 1px solid #303039;
         border-radius: 12px;
         padding: 18px;
@@ -293,7 +233,7 @@ st.markdown(
         color: #FF9345 !important;
     }
 
-    /* TABS */
+    /* Tabs */
 
     .stTabs [data-baseweb="tab"] {
         color: #D0D0D8;
@@ -304,7 +244,7 @@ st.markdown(
         border-bottom-color: #F04452 !important;
     }
 
-    /* TABLES */
+    /* Tables */
 
     [data-testid="stDataFrame"],
     [data-testid="stTable"] {
@@ -312,22 +252,29 @@ st.markdown(
         border-radius: 9px;
     }
 
-    /* DIVIDERS */
+    /* Expander headings */
+
+    [data-testid="stExpander"] summary {
+        background: #17171D !important;
+        color: #FFFFFF !important;
+        border: 1px solid #383842 !important;
+        border-radius: 8px !important;
+    }
+
+    [data-testid="stExpander"] summary p,
+    [data-testid="stExpander"] summary span,
+    [data-testid="stExpander"] summary svg {
+        color: #FFFFFF !important;
+        fill: #FFFFFF !important;
+    }
 
     hr {
         border-color: #303039 !important;
     }
 
-    /* ACCESSIBILITY */
-
     @media (prefers-reduced-motion: reduce) {
         .stApp::before {
             animation: none !important;
-        }
-
-        .stButton > button,
-        .stDownloadButton > button {
-            transition: none !important;
         }
     }
     </style>
@@ -337,7 +284,7 @@ st.markdown(
 
 
 # ============================================================
-# MODEL CONFIGURATION
+# DATASET CONFIGURATION
 # ============================================================
 
 DATA_PATH = Path(__file__).parent / "cu_ii_training_data.csv"
@@ -372,19 +319,16 @@ def load_data():
 
     frame = pd.read_csv(DATA_PATH)
 
-    required_columns = (
-        NUM_FEATURES + CAT_FEATURES + [TARGET, GROUP]
-    )
+    required_columns = NUM_FEATURES + CAT_FEATURES + [TARGET, GROUP]
 
     missing_columns = [
-        column
-        for column in required_columns
+        column for column in required_columns
         if column not in frame.columns
     ]
 
     if missing_columns:
         raise ValueError(
-            "The CSV is missing these required columns: "
+            "The CSV is missing required columns: "
             + ", ".join(missing_columns)
         )
 
@@ -399,21 +343,19 @@ def load_data():
             errors="coerce"
         )
 
-    frame = frame.dropna(
-        subset=[TARGET, GROUP]
-    ).copy()
+    frame = frame.dropna(subset=[TARGET, GROUP]).copy()
 
     if frame.empty:
         raise ValueError(
-            "No usable rows remain after removing records "
-            "without a target value or Paper_ID."
+            "No usable rows remain after removing records without "
+            "a target value or Paper_ID."
         )
 
     return frame
 
 
 # ============================================================
-# BUILD THE MODEL
+# BUILD RANDOM FOREST MODEL
 # ============================================================
 
 def build_model():
@@ -422,24 +364,15 @@ def build_model():
             (
                 "numeric",
                 Pipeline([
-                    (
-                        "imputer",
-                        SimpleImputer(strategy="median")
-                    )
+                    ("imputer", SimpleImputer(strategy="median"))
                 ]),
                 NUM_FEATURES
             ),
             (
                 "categorical",
                 Pipeline([
-                    (
-                        "imputer",
-                        SimpleImputer(strategy="most_frequent")
-                    ),
-                    (
-                        "onehot",
-                        OneHotEncoder(handle_unknown="ignore")
-                    )
+                    ("imputer", SimpleImputer(strategy="most_frequent")),
+                    ("onehot", OneHotEncoder(handle_unknown="ignore"))
                 ]),
                 CAT_FEATURES
             )
@@ -447,7 +380,7 @@ def build_model():
         remainder="drop"
     )
 
-    model = Pipeline([
+    return Pipeline([
         ("preprocess", preprocessor),
         (
             "rf",
@@ -461,8 +394,6 @@ def build_model():
             )
         )
     ])
-
-    return model
 
 
 @st.cache_resource
@@ -479,16 +410,13 @@ def fit_model():
 
 
 # ============================================================
-# LOAD AND TRAIN SAFELY
+# INITIALISE MODEL
 # ============================================================
 
 try:
     model, frame = fit_model()
-
 except Exception as exc:
-    st.error(
-        f"Could not load the dataset or train the model: {exc}"
-    )
+    st.error(f"Could not load/train the demo model: {exc}")
     st.stop()
 
 
@@ -496,9 +424,7 @@ except Exception as exc:
 # TITLE AND INTRODUCTION
 # ============================================================
 
-st.title(
-    "🌿 Cu(II) Adsorption Capacity — Random Forest Demo"
-)
+st.title("🌿 Cu(II) Adsorption Capacity — Random Forest Demo")
 
 st.caption(
     "PBL prototype | GO, rGO and related graphene-based adsorbents"
@@ -506,10 +432,10 @@ st.caption(
 
 st.warning(
     "**Research prototype only — not a validated scientific predictor.** "
-    "The current dataset is small, highly imbalanced by source paper, "
-    "and some source values still need verification. Treat every output "
-    "as an exploratory demo estimate, not an experimental result or "
-    "an engineering recommendation."
+    "The current dataset is small, highly imbalanced by source paper, and "
+    "some source values still need verification. Treat every output as an "
+    "exploratory demo estimate, not an experimental result or an engineering "
+    "recommendation."
 )
 
 
@@ -520,27 +446,20 @@ st.warning(
 with st.sidebar:
     st.header("About this model")
 
+    st.write("**Target:** adsorption capacity, qe (mg/g)")
+
     st.write(
-        "**Target:** adsorption capacity, qe (mg/g)"
+        "**Inputs used:** pH, initial Cu(II), contact time, adsorbent "
+        "dose, adsorbent type, and synthesis method."
     )
 
     st.write(
-        "**Inputs used:** pH, initial Cu(II), contact time, "
-        "adsorbent dose, adsorbent type, and synthesis method."
+        "Temperature, BET surface area, and O/C ratio are not model "
+        "inputs in this prototype."
     )
 
-    st.write(
-        "Temperature, BET surface area, and O/C ratio are not "
-        "model inputs in this prototype."
-    )
-
-    st.write(
-        f"**Training rows:** {len(frame)}"
-    )
-
-    st.write(
-        f"**Source papers/labels:** {frame[GROUP].nunique()}"
-    )
+    st.write(f"**Training rows:** {len(frame)}")
+    st.write(f"**Source papers/labels:** {frame[GROUP].nunique()}")
 
     st.write(
         "**Algorithm:** RandomForestRegressor "
@@ -562,19 +481,11 @@ with st.sidebar:
 st.subheader("1. Enter experimental conditions")
 
 adsorbents = sorted(
-    frame["Adsorbent_type"]
-    .dropna()
-    .astype(str)
-    .unique()
-    .tolist()
+    frame["Adsorbent_type"].dropna().astype(str).unique().tolist()
 )
 
 methods = sorted(
-    frame["Synthesis_method"]
-    .dropna()
-    .astype(str)
-    .unique()
-    .tolist()
+    frame["Synthesis_method"].dropna().astype(str).unique().tolist()
 )
 
 if not adsorbents:
@@ -582,7 +493,6 @@ if not adsorbents:
 
 if not methods:
     methods = ["Not specified"]
-
 
 col1, col2, col3 = st.columns(3)
 
@@ -632,14 +542,13 @@ with col3:
     )
 
 st.caption(
-    "Choose values and material categories that resemble the source "
-    "dataset. A category not represented in training may produce "
-    "unreliable estimates."
+    "Choose values and material categories that resemble the source dataset. "
+    "A category not represented in training may produce unreliable estimates."
 )
 
 
 # ============================================================
-# PREDICTION
+# PREDICTION AND RANGE WARNINGS
 # ============================================================
 
 if st.button(
@@ -667,15 +576,14 @@ if st.button(
         )
 
         st.info(
-            "This is a model output from a limited literature-derived "
-            "dataset. It is not a measured value, and the current "
-            "cross-paper validation has not shown reliable generalisation."
+            "This is a model output from a limited literature-derived dataset. "
+            "It is not a measured value, and the current cross-paper validation "
+            "has not shown reliable generalisation."
         )
 
     except Exception as exc:
         st.error(f"Prediction failed: {exc}")
 
-    # Compare input values with the observed training ranges.
     ranges = {}
 
     for column, value in [
@@ -705,8 +613,7 @@ if st.button(
 
     if out_of_range:
         st.warning(
-            "One or more inputs are outside the observed "
-            "training range:\n\n"
+            "One or more inputs are outside the observed training range:\n\n"
             + "\n\n".join(out_of_range)
         )
 
@@ -714,175 +621,32 @@ if st.button(
         frame["Adsorbent_type"].dropna().astype(str)
     ):
         st.warning(
-            "This adsorbent type was not represented in the "
-            "training data; the estimate is especially unreliable."
+            "This adsorbent type was not represented in the training data; "
+            "the estimate is especially unreliable."
         )
 
 
 # ============================================================
-# MODEL VALIDATION: MAE, RMSE, R² AND LOPO
+# MODEL VALIDATION SUMMARY
 # ============================================================
 
-with st.expander(
-    "Model validation: MAE, RMSE, R² and per-paper checking",
-    expanded=True
-):
+with st.expander("Model validation summary (important)"):
     st.write(
-        "Leave-One-Paper-Out (LOPO) validation holds out each source "
-        "paper in turn, trains on the remaining papers, and evaluates "
-        "predictions on the held-out paper. This tests generalisation "
-        "to an unseen source."
+        "The previous leave-one-paper-out validation on the current "
+        "candidate dataset produced MAE around 61 mg/g for the shallow "
+        "Random Forest and R² around −0.01. These results indicate poor "
+        "predictive performance on held-out papers."
     )
 
-    st.info(
-        "Previously recorded overall results: MAE = 61.24 mg/g, "
-        "RMSE = 64.07 mg/g, R² = -0.016. These are historical results, "
-        "not recalculated values. Run the validation below to calculate "
-        "metrics from the current CSV and code."
+    st.write(
+        "Do not use the demo for treatment design, safety decisions, scale-up, "
+        "or replacing laboratory measurements. The next research step is "
+        "source verification and adding comparable independent studies."
     )
-
-    if st.button(
-        "Run validation checks",
-        key="run_lopo_validation",
-        use_container_width=True
-    ):
-        validation_data = frame.dropna(
-            subset=[TARGET, GROUP]
-        ).copy()
-
-        X_val = validation_data[
-            NUM_FEATURES + CAT_FEATURES
-        ]
-
-        y_val = validation_data[TARGET].astype(float)
-        groups_val = validation_data[GROUP]
-
-        if groups_val.nunique() < 2:
-            st.error(
-                "LOPO validation requires at least two distinct Paper_ID groups."
-            )
-
-        else:
-            logo = LeaveOneGroupOut()
-
-            actual_all = []
-            predicted_all = []
-            paper_results = []
-
-            for train_idx, test_idx in logo.split(
-                X_val,
-                y_val,
-                groups_val
-            ):
-                X_train = X_val.iloc[train_idx]
-                X_test = X_val.iloc[test_idx]
-
-                y_train = y_val.iloc[train_idx]
-                y_test = y_val.iloc[test_idx]
-
-                # Fit preprocessing separately in each fold to prevent leakage.
-                fold_model = build_model()
-                fold_model.fit(X_train, y_train)
-
-                predictions = fold_model.predict(X_test)
-
-                actual_all.extend(y_test.tolist())
-                predicted_all.extend(predictions.tolist())
-
-                paper_id = str(groups_val.iloc[test_idx[0]])
-
-                paper_results.append({
-                    "Paper_ID": paper_id,
-                    "Test observations": len(test_idx),
-                    "MAE (mg/g)": mean_absolute_error(
-                        y_test,
-                        predictions
-                    ),
-                    "RMSE (mg/g)": float(
-                        np.sqrt(
-                            mean_squared_error(
-                                y_test,
-                                predictions
-                            )
-                        )
-                    )
-                })
-
-            overall_mae = mean_absolute_error(
-                actual_all,
-                predicted_all
-            )
-
-            overall_rmse = float(
-                np.sqrt(
-                    mean_squared_error(
-                        actual_all,
-                        predicted_all
-                    )
-                )
-            )
-
-            overall_r2 = r2_score(
-                actual_all,
-                predicted_all
-            )
-
-            st.subheader("Overall LOPO validation metrics")
-
-            metric1, metric2, metric3 = st.columns(3)
-
-            metric1.metric(
-                "MAE",
-                f"{overall_mae:.2f} mg/g"
-            )
-
-            metric2.metric(
-                "RMSE",
-                f"{overall_rmse:.2f} mg/g"
-            )
-
-            metric3.metric(
-                "R²",
-                f"{overall_r2:.3f}"
-            )
-
-            st.subheader("Per-paper validation results")
-
-            results_df = pd.DataFrame(paper_results)
-
-            st.dataframe(
-                results_df,
-                use_container_width=True,
-                hide_index=True
-            )
-
-            st.download_button(
-                "Download validation results (CSV)",
-                data=results_df.to_csv(
-                    index=False
-                ).encode("utf-8"),
-                file_name="cu_ii_lopo_validation_results.csv",
-                mime="text/csv"
-            )
-
-            if overall_r2 < 0:
-                st.warning(
-                    "R² is negative, meaning this model performed worse "
-                    "than a mean-prediction baseline on these held-out "
-                    "papers. Treat the model as exploratory, not a "
-                    "reliable predictor."
-                )
-
-            st.caption(
-                "MAE is the average absolute prediction error. "
-                "RMSE penalises larger errors more strongly. "
-                "R² compares predictions with a mean-based baseline. "
-                "Results depend on the current dataset."
-            )
 
 
 # ============================================================
-# DATASET PREVIEW
+# PREVIEW TRAINING DATA
 # ============================================================
 
 with st.expander("Preview training data"):
@@ -892,15 +656,364 @@ with st.expander("Preview training data"):
         hide_index=True
     )
 
+st.divider()
+
+st.caption(
+    "Built for a biotechnology PBL demonstration. Document the dataset "
+    "provenance and validation limitations in your report."
+)
+
 
 # ============================================================
-# FOOTER
+# DATASET MANAGEMENT
 # ============================================================
 
 st.divider()
 
-st.caption(
-    "Built for a biotechnology PBL demonstration. "
-    "Document the dataset provenance and validation limitations "
-    "in your report."
+st.header("📂 Dataset Management")
+
+st.write(
+    "Upload a CSV file to inspect its columns, check whether it contains "
+    "the model's required features, and download a copy."
 )
+
+uploaded_file = st.file_uploader(
+    "Upload your research dataset (CSV)",
+    type=["csv"],
+    key="dataset_management_upload"
+)
+
+if uploaded_file is not None:
+    try:
+        uploaded_data = pd.read_csv(uploaded_file)
+
+        st.subheader("Uploaded dataset")
+        st.write(f"Rows: {len(uploaded_data)}")
+        st.write(f"Columns: {len(uploaded_data.columns)}")
+
+        required_columns = NUM_FEATURES + CAT_FEATURES + [TARGET]
+
+        missing_columns = [
+            column
+            for column in required_columns
+            if column not in uploaded_data.columns
+        ]
+
+        if missing_columns:
+            st.error(
+                "Some required model columns are missing: "
+                + ", ".join(missing_columns)
+            )
+
+            st.caption(
+                "Required columns: " + ", ".join(required_columns)
+            )
+
+        else:
+            st.success("All required model columns are present.")
+
+            numeric_columns = NUM_FEATURES + [TARGET]
+
+            numeric_data = uploaded_data[numeric_columns].apply(
+                pd.to_numeric,
+                errors="coerce"
+            )
+
+            missing_values = numeric_data.isna().sum()
+
+            if missing_values.any():
+                st.warning(
+                    "Some required numeric values are missing or "
+                    "cannot be interpreted as numbers."
+                )
+
+                st.dataframe(
+                    missing_values.rename("Missing/invalid values"),
+                    use_container_width=True
+                )
+
+        st.subheader("Dataset preview")
+
+        st.dataframe(
+            uploaded_data.head(100),
+            use_container_width=True
+        )
+
+        st.download_button(
+            "⬇️ Download uploaded dataset as CSV",
+            data=uploaded_data.to_csv(index=False).encode("utf-8"),
+            file_name="uploaded_cuii_dataset.csv",
+            mime="text/csv"
+        )
+
+        st.divider()
+
+        st.subheader("🌳 Train Random Forest on Uploaded Dataset")
+
+        if st.button(
+            "Train model using uploaded dataset",
+            key="train_uploaded_model"
+        ):
+            try:
+                training_data = uploaded_data.copy()
+
+                numeric_columns = NUM_FEATURES + [TARGET]
+
+                for column in numeric_columns:
+                    training_data[column] = pd.to_numeric(
+                        training_data[column],
+                        errors="coerce"
+                    )
+
+                training_data = training_data.dropna(
+                    subset=NUM_FEATURES + CAT_FEATURES + [TARGET]
+                )
+
+                if len(training_data) < 10:
+                    st.error(
+                        "At least 10 complete rows are required for this demo. "
+                        "More data is preferable."
+                    )
+
+                else:
+                    X = training_data[NUM_FEATURES + CAT_FEATURES]
+                    y = training_data[TARGET].astype(float)
+
+                    uploaded_model = build_model()
+                    uploaded_model.fit(X, y)
+
+                    st.success(
+                        f"Model trained successfully on "
+                        f"{len(training_data)} complete rows."
+                    )
+
+                    st.warning(
+                        "These are training-set metrics, not independent "
+                        "validation. They can look better than real-world "
+                        "performance. Use paper-grouped validation before "
+                        "drawing research conclusions."
+                    )
+
+                    training_predictions = uploaded_model.predict(X)
+
+                    metric1, metric2, metric3 = st.columns(3)
+
+                    metric1.metric(
+                        "Training MAE",
+                        f"{mean_absolute_error(y, training_predictions):.2f} mg/g"
+                    )
+
+                    metric2.metric(
+                        "Training RMSE",
+                        f"{np.sqrt(mean_squared_error(y, training_predictions)):.2f} mg/g"
+                    )
+
+                    metric3.metric(
+                        "Training R²",
+                        f"{r2_score(y, training_predictions):.3f}"
+                    )
+
+                    st.subheader("Feature importance")
+
+                    transformed_names = (
+                        uploaded_model.named_steps["preprocess"]
+                        .get_feature_names_out()
+                    )
+
+                    importances = (
+                        uploaded_model.named_steps["rf"].feature_importances_
+                    )
+
+                    importance_frame = pd.DataFrame({
+                        "Feature": transformed_names,
+                        "Importance": importances
+                    }).sort_values(
+                        "Importance",
+                        ascending=False
+                    )
+
+                    st.dataframe(
+                        importance_frame,
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                    st.download_button(
+                        "Download trained model predictions",
+                        data=pd.DataFrame({
+                            "Observed_qe_mg_g": y.to_numpy(),
+                            "Training_predicted_qe_mg_g": training_predictions
+                        }).to_csv(index=False).encode("utf-8"),
+                        file_name="cuii_training_predictions.csv",
+                        mime="text/csv",
+                        key="download_training_predictions"
+                    )
+
+            except Exception as exc:
+                st.error(f"Model training failed: {exc}")
+
+    except Exception as exc:
+        st.error(f"Could not read this CSV file: {exc}")
+
+
+# ============================================================
+# LEAVE-ONE-PAPER-OUT VALIDATION
+# ============================================================
+
+st.divider()
+
+st.header("🧪 Leave-One-Paper-Out Validation")
+
+st.write(
+    "This evaluation holds out one research paper at a time, trains the "
+    "model on the remaining papers, and evaluates predictions on the "
+    "excluded paper. This tests cross-paper generalisation more directly "
+    "than training-set metrics."
+)
+
+if st.button("Run Leave-One-Paper-Out Validation"):
+    try:
+        validation_data = frame.copy()
+
+        validation_data[TARGET] = pd.to_numeric(
+            validation_data[TARGET],
+            errors="coerce"
+        )
+
+        validation_data = validation_data.dropna(
+            subset=[TARGET, GROUP]
+        )
+
+        number_of_papers = validation_data[GROUP].nunique()
+
+        if number_of_papers < 3:
+            st.error(
+                "At least three distinct research papers are needed "
+                "for this exploratory validation."
+            )
+
+        else:
+            logo = LeaveOneGroupOut()
+
+            X_val = validation_data[NUM_FEATURES + CAT_FEATURES]
+            y_val = validation_data[TARGET].astype(float)
+            groups = validation_data[GROUP]
+
+            observed_all = []
+            predicted_all = []
+            paper_results = []
+
+            for train_idx, test_idx in logo.split(
+                X_val,
+                y_val,
+                groups=groups
+            ):
+                X_train = X_val.iloc[train_idx]
+                X_test = X_val.iloc[test_idx]
+
+                y_train = y_val.iloc[train_idx]
+                y_test = y_val.iloc[test_idx]
+
+                fold_model = build_model()
+                fold_model.fit(X_train, y_train)
+
+                fold_predictions = fold_model.predict(X_test)
+
+                paper_name = str(groups.iloc[test_idx[0]])
+
+                observed_all.extend(y_test.tolist())
+                predicted_all.extend(fold_predictions.tolist())
+
+                paper_results.append({
+                    "Held-out paper": paper_name,
+                    "Test rows": len(test_idx),
+                    "MAE (mg/g)": mean_absolute_error(
+                        y_test,
+                        fold_predictions
+                    ),
+                    "RMSE (mg/g)": np.sqrt(
+                        mean_squared_error(
+                            y_test,
+                            fold_predictions
+                        )
+                    )
+                })
+
+            overall_mae = mean_absolute_error(
+                observed_all,
+                predicted_all
+            )
+
+            overall_rmse = np.sqrt(
+                mean_squared_error(
+                    observed_all,
+                    predicted_all
+                )
+            )
+
+            overall_r2 = r2_score(
+                observed_all,
+                predicted_all
+            )
+
+            macro_mae = np.mean([
+                result["MAE (mg/g)"]
+                for result in paper_results
+            ])
+
+            st.success(
+                f"Validation completed across {number_of_papers} papers."
+            )
+
+            col1, col2 = st.columns(2)
+
+            col1.metric(
+                "LOPO MAE",
+                f"{overall_mae:.2f} mg/g"
+            )
+
+            col2.metric(
+                "LOPO RMSE",
+                f"{overall_rmse:.2f} mg/g"
+            )
+
+            col3, col4 = st.columns(2)
+
+            col3.metric(
+                "LOPO R²",
+                f"{overall_r2:.3f}"
+            )
+
+            col4.metric(
+                "Macro-average paper MAE",
+                f"{macro_mae:.2f} mg/g"
+            )
+
+            st.warning(
+                "These results are exploratory. Performance may vary greatly "
+                "between papers, especially when the dataset is small or "
+                "the papers report very different adsorption capacities. "
+                "Do not interpret these metrics as proof of general "
+                "predictive accuracy."
+            )
+
+            st.subheader("Performance for each held-out paper")
+
+            paper_results_df = pd.DataFrame(paper_results)
+
+            st.dataframe(
+                paper_results_df,
+                use_container_width=True,
+                hide_index=True
+            )
+
+            st.download_button(
+                "Download LOPO validation results",
+                data=paper_results_df.to_csv(index=False).encode("utf-8"),
+                file_name="cuii_lopo_validation_results.csv",
+                mime="text/csv",
+                key="download_lopo_results"
+            )
+
+    except Exception as exc:
+        st.error(f"LOPO validation failed: {exc}")
