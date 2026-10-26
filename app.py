@@ -1,110 +1,759 @@
-# ==========================================
+import streamlit as st
+import pandas as pd
+import numpy as np
+from pathlib import Path
 
-st.markdown("""
-/* =========================================
-   RESTORED BLACK GRADIENT + GLOWING PARTICLES
-   ========================================= */
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import LeaveOneGroupOut
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-/* Aesthetic black gradient */
-.stApp {
-    background:
-        radial-gradient(
-            ellipse at 12% 12%,
-            rgba(100, 25, 40, 0.22) 0%,
-            transparent 42%
-        ),
-        radial-gradient(
-            ellipse at 88% 20%,
-            rgba(25, 45, 90, 0.22) 0%,
-            transparent 44%
-        ),
-        radial-gradient(
-            ellipse at 55% 100%,
-            rgba(90, 48, 20, 0.10) 0%,
-            transparent 42%
-        ),
-        linear-gradient(
-            135deg,
-            #050505 0%,
-            #101014 50%,
-            #070709 100%
+
+# ============================================================
+# PAGE CONFIGURATION
+# ============================================================
+
+st.set_page_config(
+    page_title="Cu(II) Adsorption Predictor",
+    page_icon="🌿",
+    layout="wide"
+)
+
+
+# ============================================================
+# DESIGN: BLACK GRADIENT, GLOWING DOTS, COLOURED INPUTS
+# All CSS is contained inside this single style block.
+# ============================================================
+
+st.markdown(
+    """
+    <style>
+
+    /* ---------- BLACK GRADIENT BACKGROUND ---------- */
+
+    .stApp {
+        background:
+            radial-gradient(
+                ellipse at 12% 8%,
+                rgba(110, 25, 43, 0.20) 0%,
+                transparent 42%
+            ),
+            radial-gradient(
+                ellipse at 88% 15%,
+                rgba(28, 48, 95, 0.20) 0%,
+                transparent 45%
+            ),
+            radial-gradient(
+                ellipse at 55% 100%,
+                rgba(95, 48, 20, 0.09) 0%,
+                transparent 45%
+            ),
+            linear-gradient(
+                135deg,
+                #060607 0%,
+                #101014 48%,
+                #08080B 100%
+            ) !important;
+
+        background-attachment: fixed !important;
+        color: #F5F5F7;
+    }
+
+    /* Keep the main Streamlit containers transparent
+       so the gradient can show through. */
+
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"],
+    [data-testid="stMainBlockContainer"],
+    section.main {
+        background: transparent !important;
+    }
+
+    [data-testid="stHeader"] {
+        background: rgba(7, 7, 9, 0.65) !important;
+    }
+
+    /* ---------- ANIMATED GLOWING DOTS ---------- */
+
+    .stApp::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+
+        background-image:
+            radial-gradient(
+                circle,
+                rgba(255, 65, 78, 0.65) 1px,
+                transparent 2px
+            ),
+            radial-gradient(
+                circle,
+                rgba(65, 135, 255, 0.60) 1px,
+                transparent 2px
+            ),
+            radial-gradient(
+                circle,
+                rgba(255, 150, 65, 0.48) 1px,
+                transparent 2px
+            ),
+            radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.32) 1px,
+                transparent 2px
+            );
+
+        background-size:
+            135px 135px,
+            180px 180px,
+            225px 225px,
+            265px 265px;
+
+        background-position:
+            0 0,
+            45px 60px,
+            100px 25px,
+            30px 110px;
+
+        opacity: 0.45;
+        animation: particleDrift 45s linear infinite;
+    }
+
+    @keyframes particleDrift {
+        0% {
+            background-position:
+                0 0,
+                45px 60px,
+                100px 25px,
+                30px 110px;
+        }
+
+        50% {
+            background-position:
+                65px 90px,
+                125px 145px,
+                205px 105px,
+                155px 225px;
+        }
+
+        100% {
+            background-position:
+                135px 180px,
+                225px 240px,
+                325px 205px,
+                295px 370px;
+        }
+    }
+
+    /* ---------- SIDEBAR ---------- */
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(
+            180deg,
+            #111115 0%,
+            #09090C 100%
         ) !important;
 
-    background-attachment: fixed !important;
-}
-
-/* Prevent Streamlit containers from hiding the gradient */
-[data-testid="stAppViewContainer"],
-[data-testid="stMain"],
-.main,
-section.main {
-    background: transparent !important;
-}
-
-/* Animated glowing dots */
-.stApp::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-
-    background-image:
-        radial-gradient(circle, rgba(255, 65, 75, 0.65) 1px, transparent 2px),
-        radial-gradient(circle, rgba(65, 135, 255, 0.60) 1px, transparent 2px),
-        radial-gradient(circle, rgba(255, 150, 65, 0.50) 1px, transparent 2px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.35) 1px, transparent 2px);
-
-    background-size:
-        130px 130px,
-        175px 175px,
-        215px 215px,
-        255px 255px;
-
-    background-position:
-        0 0,
-        45px 60px,
-        100px 25px,
-        30px 110px;
-
-    opacity: 0.65;
-    animation: glowingParticles 45s linear infinite;
-}
-
-/* Keep interactive app content above the particles */
-[data-testid="stAppViewContainer"],
-[data-testid="stSidebar"],
-[data-testid="stHeader"] {
-    position: relative;
-    z-index: 1;
-}
-
-/* Slow, subtle movement */
-@keyframes glowingParticles {
-    0% {
-        background-position:
-            0 0, 45px 60px, 100px 25px, 30px 110px;
+        border-right: 1px solid #292932;
     }
 
-    50% {
-        background-position:
-            65px 90px, 125px 145px, 205px 105px, 155px 225px;
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] .stMarkdown {
+        color: #D1D1D8 !important;
     }
 
-    100% {
-        background-position:
-            130px 180px, 220px 230px, 310px 185px, 280px 340px;
-    }
-}
+    /* ---------- HEADINGS ---------- */
 
-/* Disable movement for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .stApp::before {
-        animation: none;
+    h1, h2, h3 {
+        color: #F7F7FA !important;
+        letter-spacing: 0.2px;
     }
-}
-<style>
 
-/* ===== SUBTLE BLACK GRADIENT BACKGROUND ===== */
+    h1 {
+        text-shadow: 0 0 24px rgba(255, 55, 70, 0.12);
+    }
+
+    p, li, .stMarkdown {
+        color: #D1D1D8;
+    }
+
+    [data-testid="stCaptionContainer"] {
+        color: #A7A7B2 !important;
+    }
+
+    /* ---------- INPUT FIELDS: GREY WITH BLACK TEXT ---------- */
+
+    .stTextInput input,
+    .stNumberInput input,
+    .stTextArea textarea {
+        background-color: #D8D8DE !important;
+        color: #111116 !important;
+        border: 1px solid #A6A6B0 !important;
+        border-radius: 8px !important;
+        caret-color: #111116 !important;
+    }
+
+    .stTextInput input::placeholder,
+    .stNumberInput input::placeholder,
+    .stTextArea textarea::placeholder {
+        color: #45454D !important;
+        opacity: 1 !important;
+    }
+
+    .stNumberInput button {
+        background: #C3C3CC !important;
+        color: #17171B !important;
+        border-color: #A6A6B0 !important;
+    }
+
+    /* ---------- SELECT BOXES ---------- */
+
+    .stSelectbox [data-baseweb="select"] > div,
+    .stMultiSelect [data-baseweb="select"] > div {
+        background-color: #D8D8DE !important;
+        color: #111116 !important;
+        border-color: #A6A6B0 !important;
+        border-radius: 8px !important;
+    }
+
+    .stSelectbox [data-baseweb="select"] *,
+    .stMultiSelect [data-baseweb="select"] * {
+        color: #111116 !important;
+    }
+
+    [data-baseweb="popover"],
+    [data-baseweb="menu"] {
+        background-color: #E0E0E6 !important;
+    }
+
+    [role="option"] {
+        color: #111116 !important;
+    }
+
+    /* ---------- FILE UPLOAD AREA ---------- */
+
+    [data-testid="stFileUploader"] section {
+        background: #D8D8DE !important;
+        border: 1px dashed #777782 !important;
+        border-radius: 12px !important;
+    }
+
+    [data-testid="stFileUploader"] section,
+    [data-testid="stFileUploader"] section * {
+        color: #15151A !important;
+    }
+
+    [data-testid="stFileUploader"] button {
+        background: #303038 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #50505A !important;
+        border-radius: 7px !important;
+    }
+
+    /* ---------- BUTTONS ---------- */
+
+    .stButton > button,
+    .stDownloadButton > button {
+        background: linear-gradient(
+            105deg,
+            #D92F42 0%,
+            #F06435 100%
+        ) !important;
+
+        color: #FFFFFF !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 9px !important;
+        font-weight: 650 !important;
+        transition: all 0.22s ease-in-out;
+    }
+
+    .stButton > button:hover,
+    .stDownloadButton > button:hover {
+        background: linear-gradient(
+            105deg,
+            #286CDE 0%,
+            #438DFF 100%
+        ) !important;
+
+        color: #FFFFFF !important;
+        box-shadow: 0 0 18px rgba(55, 125, 255, 0.22);
+        transform: translateY(-1px);
+    }
+
+    /* ---------- METRIC CARDS ---------- */
+
+    [data-testid="stMetric"] {
+        background: rgba(23, 23, 29, 0.90);
+        border: 1px solid #303039;
+        border-radius: 12px;
+        padding: 18px;
+    }
+
+    [data-testid="stMetricLabel"] {
+        color: #BFC0CB !important;
+    }
+
+    [data-testid="stMetricValue"] {
+        color: #FF9345 !important;
+    }
+
+    /* ---------- TABS ---------- */
+
+    .stTabs [data-baseweb="tab"] {
+        color: #D0D0D8;
+    }
+
+    .stTabs [aria-selected="true"] {
+        color: #FFFFFF !important;
+        border-bottom-color: #F04452 !important;
+    }
+
+    /* ---------- TABLES ---------- */
+
+    [data-testid="stDataFrame"],
+    [data-testid="stTable"] {
+        border: 1px solid #303039;
+        border-radius: 9px;
+    }
+
+    /* ---------- DIVIDERS ---------- */
+
+    hr {
+        border-color: #303039 !important;
+    }
+
+    /* ---------- ACCESSIBILITY ---------- */
+
+    @media (prefers-reduced-motion: reduce) {
+        .stApp::before {
+            animation: none !important;
+        }
+
+        .stButton > button,
+        .stDownloadButton > button {
+            transition: none !important;
+        }
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
+# ORIGINAL MODEL CONFIGURATION
+# ============================================================
+
+DATA_PATH = Path(__file__).parent / "cu_ii_training_data.csv"
+
+NUM_FEATURES = [
+    "pH",
+    "Initial_Cu (mg/l)",
+    "Contact_Time (min)",
+    "Dose (g/L)"
+]
+
+CAT_FEATURES = [
+    "Adsorbent_type",
+    "Synthesis_method"
+]
+
+TARGET = "qe(mg/g)"
+GROUP = "Paper_ID"
+
+
+# ============================================================
+# LOAD DATA
+# ============================================================
+
+@st.cache_data
+def load_data():
+    frame = pd.read_csv(DATA_PATH)
+
+    frame[TARGET] = pd.to_numeric(
+        frame[TARGET],
+        errors="coerce"
+    )
+
+    for col in NUM_FEATURES:
+        frame[col] = pd.to_numeric(
+            frame[col],
+            errors="coerce"
+        )
+
+    frame = frame.dropna(
+        subset=[TARGET, GROUP]
+    ).copy()
+
+    return frame
+
+
+# ============================================================
+# TRAIN ORIGINAL RANDOM FOREST MODEL
+# ============================================================
+
+@st.cache_resource
+def fit_model():
+    frame = load_data()
+
+    X = frame[NUM_FEATURES + CAT_FEATURES]
+    y = frame[TARGET].astype(float)
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            (
+                "numeric",
+                Pipeline([
+                    (
+                        "imputer",
+                        SimpleImputer(strategy="median")
+                    )
+                ]),
+                NUM_FEATURES
+            ),
+            (
+                "categorical",
+                Pipeline([
+                    (
+                        "imputer",
+                        SimpleImputer(strategy="most_frequent")
+                    ),
+                    (
+                        "onehot",
+                        OneHotEncoder(
+                            handle_unknown="ignore"
+                        )
+                    )
+                ]),
+                CAT_FEATURES
+            )
+        ],
+        remainder="drop"
+    )
+
+    model = Pipeline([
+        ("preprocess", preprocessor),
+        (
+            "rf",
+            RandomForestRegressor(
+                n_estimators=300,
+                max_depth=3,
+                min_samples_leaf=2,
+                max_features=1.0,
+                random_state=42,
+                n_jobs=-1
+            )
+        )
+    ])
+
+    model.fit(X, y)
+
+    return model, frame
+
+
+try:
+    model, frame = fit_model()
+
+except Exception as exc:
+    st.error(
+        f"Could not load/train the demo model: {exc}"
+    )
+    st.stop()
+
+
+# ============================================================
+# ORIGINAL TITLE AND INTRODUCTION
+# ============================================================
+
+st.title(
+    "🌿 Cu(II) Adsorption Capacity — Random Forest Demo"
+)
+
+st.caption(
+    "PBL prototype | GO, rGO and related graphene-based adsorbents"
+)
+
+st.warning(
+    "**Research prototype only — not a validated scientific predictor.** "
+    "The current dataset is small, highly imbalanced by source paper, "
+    "and some source values still need verification. Treat every output "
+    "as an exploratory demo estimate, not an experimental result or "
+    "an engineering recommendation."
+)
+
+
+# ============================================================
+# ORIGINAL SIDEBAR
+# ============================================================
+
+with st.sidebar:
+
+    st.header("About this model")
+
+    st.write(
+        "**Target:** adsorption capacity, qe (mg/g)"
+    )
+
+    st.write(
+        "**Inputs used:** pH, initial Cu(II), contact time, "
+        "adsorbent dose, adsorbent type, and synthesis method."
+    )
+
+    st.write(
+        "Temperature, BET surface area, and O/C ratio are not "
+        "model inputs in this prototype."
+    )
+
+    st.write(
+        f"**Training rows:** {len(frame)}"
+    )
+
+    st.write(
+        f"**Source papers/labels:** {frame[GROUP].nunique()}"
+    )
+
+    st.write(
+        "**Algorithm:** RandomForestRegressor "
+        "(shallow demo configuration)"
+    )
+
+    st.divider()
+
+    st.caption(
+        "Model is fitted locally when this app starts. "
+        "No external service is called."
+    )
+
+
+# ============================================================
+# ORIGINAL PREDICTION INPUTS
+# ============================================================
+
+st.subheader("1. Enter experimental conditions")
+
+adsorbents = sorted(
+    frame["Adsorbent_type"]
+    .dropna()
+    .astype(str)
+    .unique()
+    .tolist()
+)
+
+methods = sorted(
+    frame["Synthesis_method"]
+    .dropna()
+    .astype(str)
+    .unique()
+    .tolist()
+)
+
+if not adsorbents:
+    adsorbents = ["GO", "rGO", "rGO-TiO2"]
+
+if not methods:
+    methods = ["Not specified"]
+
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+
+    adsorbent = st.selectbox(
+        "Adsorbent type",
+        adsorbents
+    )
+
+    ph = st.number_input(
+        "Solution pH",
+        min_value=0.0,
+        max_value=14.0,
+        value=4.0,
+        step=0.1
+    )
+
+
+with col2:
+
+    initial_cu = st.number_input(
+        "Initial Cu(II) concentration (mg/L)",
+        min_value=0.01,
+        max_value=100000.0,
+        value=50.0,
+        step=1.0
+    )
+
+    contact_time = st.number_input(
+        "Contact time (min)",
+        min_value=0.0,
+        max_value=100000.0,
+        value=60.0,
+        step=5.0
+    )
+
+
+with col3:
+
+    dose = st.number_input(
+        "Adsorbent dose (g/L)",
+        min_value=0.001,
+        max_value=10000.0,
+        value=1.0,
+        step=0.1
+    )
+
+    synthesis = st.selectbox(
+        "Synthesis method",
+        methods
+    )
+
+
+st.caption(
+    "Choose values and material categories that resemble the source "
+    "dataset. A category not represented in training may produce "
+    "unreliable estimates."
+)
+
+
+# ============================================================
+# ORIGINAL PREDICTION FUNCTIONALITY
+# ============================================================
+
+if st.button(
+    "🌱 Predict demo qe",
+    type="primary",
+    use_container_width=True
+):
+
+    input_row = pd.DataFrame([{
+        "pH": ph,
+        "Initial_Cu (mg/l)": initial_cu,
+        "Contact_Time (min)": contact_time,
+        "Dose (g/L)": dose,
+        "Adsorbent_type": adsorbent,
+        "Synthesis_method": synthesis
+    }])
+
+    prediction = float(
+        model.predict(input_row)[0]
+    )
+
+    st.subheader("2. Demo output")
+
+    st.metric(
+        "Predicted adsorption capacity, qe",
+        f"{prediction:.2f} mg/g"
+    )
+
+    st.info(
+        "This is a model output from a limited literature-derived "
+        "dataset. It is not a measured value, and the current "
+        "cross-paper validation has not shown reliable generalisation."
+    )
+
+    # Check entered values against the training ranges.
+
+    ranges = {}
+
+    for column, value in [
+        ("pH", ph),
+        ("Initial_Cu (mg/l)", initial_cu),
+        ("Contact_Time (min)", contact_time),
+        ("Dose (g/L)", dose)
+    ]:
+
+        lower = frame[column].min()
+        upper = frame[column].max()
+
+        if pd.notna(lower) and pd.notna(upper):
+
+            ranges[column] = (
+                float(lower),
+                float(upper),
+                float(value)
+            )
+
+    out_of_range = [
+        (
+            f"{column}: entered {value:g}, "
+            f"training range {lower:g}–{upper:g}"
+        )
+        for column, (lower, upper, value)
+        in ranges.items()
+        if value < lower or value > upper
+    ]
+
+    if out_of_range:
+
+        st.warning(
+            "One or more inputs are outside the observed "
+            "training range:\n\n"
+            + "\n\n".join(out_of_range)
+        )
+
+    if adsorbent not in set(
+        frame["Adsorbent_type"]
+        .dropna()
+        .astype(str)
+    ):
+
+        st.warning(
+            "This adsorbent type was not represented in the "
+            "training data; the estimate is especially unreliable."
+        )
+
+
+# ============================================================
+# ORIGINAL VALIDATION SUMMARY
+# ============================================================
+
+with st.expander(
+    "Model validation summary (important)"
+):
+
+    st.write(
+        "The previous leave-one-paper-out validation on the current "
+        "candidate dataset produced MAE around 61 mg/g for the "
+        "shallow Random Forest and R² around −0.01. These results "
+        "indicate poor predictive performance on held-out papers."
+    )
+
+    st.write(
+        "Do not use the demo for treatment design, safety decisions, "
+        "scale-up, or replacing laboratory measurements. The next "
+        "research step is source verification and adding comparable "
+        "independent studies."
+    )
+
+
+# ============================================================
+# ORIGINAL DATASET PREVIEW
+# ============================================================
+
+with st.expander("Preview training data"):
+
+    st.dataframe(
+        frame,
+        use_container_width=True,
+        hide_index=True
+    )
+
+
+# ============================================================
+# FOOTER
+# ============================================================
+
+st.divider()
+
+st.caption(
+    "Built for a biotechnology PBL demonstration. "
+    "Document the dataset provenance and validation limitations "
+    "in your report."
+)
