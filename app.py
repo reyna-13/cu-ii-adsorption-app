@@ -677,6 +677,7 @@ st.write(
     "the model's required features, and download a copy."
 )
 
+uploaded_data = None
 uploaded_file = st.file_uploader(
     "Upload your research dataset (CSV)",
     type=["csv"],
@@ -869,7 +870,7 @@ st.write(
 # Choose which dataset to validate.
 lopo_sources = ["App's original dataset"]
 
-uploaded_data = None
+
 if uploaded_data is not None:
     lopo_sources.append("Uploaded CSV dataset")
 
