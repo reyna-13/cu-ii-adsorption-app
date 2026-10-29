@@ -869,6 +869,7 @@ st.write(
 # Choose which dataset to validate.
 lopo_sources = ["App's original dataset"]
 
+uploaded_data = None
 if uploaded_data is not None:
     lopo_sources.append("Uploaded CSV dataset")
 
