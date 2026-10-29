@@ -856,12 +856,7 @@ if uploaded_file is not None:
         st.error(f"Could not read this CSV file: {exc}")
 
 
-# ============================================================
-# LEAVE-ONE-PAPER-OUT VALIDATION
-# ============================================================
-
 st.divider()
-
 st.header("🧪 Leave-One-Paper-Out Validation")
 
 st.write(
@@ -871,18 +866,62 @@ st.write(
     "than training-set metrics."
 )
 
+# Choose which dataset to validate.
+lopo_sources = ["App's original dataset"]
+
+if uploaded_data is not None:
+    lopo_sources.append("Uploaded CSV dataset")
+
+lopo_source = st.selectbox(
+    "Dataset to use for LOPO validation",
+    options=lopo_sources,
+    help="Choose which dataset the validation should evaluate."
+)
+
 if st.button("Run Leave-One-Paper-Out Validation"):
     try:
-        validation_data = frame.copy()
+        # Select the requested dataset.
+        if lopo_source == "Uploaded CSV dataset":
+            validation_data = uploaded_data.copy()
 
-        validation_data[TARGET] = pd.to_numeric(
-            validation_data[TARGET],
-            errors="coerce"
-        )
+            required_lopo_columns = (
+                NUM_FEATURES + CAT_FEATURES + [TARGET, GROUP]
+            )
 
+            missing_lopo_columns = [
+                col for col in required_lopo_columns
+                if col not in validation_data.columns
+            ]
+
+            if missing_lopo_columns:
+                st.error(
+                    "The uploaded CSV is missing required columns: "
+                    + ", ".join(missing_lopo_columns)
+                )
+                st.stop()
+        else:
+            validation_data = frame.copy()
+
+        # Convert numerical columns safely.
+        for numeric_col in NUM_FEATURES + [TARGET]:
+            validation_data[numeric_col] = pd.to_numeric(
+                validation_data[numeric_col],
+                errors="coerce"
+            )
+
+        # Remove rows without a target or paper ID.
         validation_data = validation_data.dropna(
             subset=[TARGET, GROUP]
+        ).copy()
+
+        # Remove blank paper IDs.
+        validation_data[GROUP] = (
+            validation_data[GROUP].astype(str).str.strip()
         )
+
+        validation_data = validation_data[
+            validation_data[GROUP] != ""
+        ].copy()
 
         number_of_papers = validation_data[GROUP].nunique()
 
@@ -895,14 +934,19 @@ if st.button("Run Leave-One-Paper-Out Validation"):
         else:
             logo = LeaveOneGroupOut()
 
-            X_val = validation_data[NUM_FEATURES + CAT_FEATURES]
+            X_val = validation_data[
+                NUM_FEATURES + CAT_FEATURES
+            ]
+
             y_val = validation_data[TARGET].astype(float)
             groups = validation_data[GROUP]
 
             observed_all = []
             predicted_all = []
             paper_results = []
+            observation_results = []
 
+            # Hold out one complete paper per validation round.
             for train_idx, test_idx in logo.split(
                 X_val,
                 y_val,
@@ -914,16 +958,93 @@ if st.button("Run Leave-One-Paper-Out Validation"):
                 y_train = y_val.iloc[train_idx]
                 y_test = y_val.iloc[test_idx]
 
-                fold_model = build_model()
-                fold_model.fit(X_train, y_train)
+                # Fit preprocessing only on the training fold.
+                fold_preprocessor = ColumnTransformer(
+                    transformers=[
+                        (
+                            "numeric",
+                            Pipeline([
+                                (
+                                    "imputer",
+                                    SimpleImputer(
+                                        strategy="median"
+                                    )
+                                )
+                            ]),
+                            NUM_FEATURES
+                        ),
+                        (
+                            "categorical",
+                            Pipeline([
+                                (
+                                    "imputer",
+                                    SimpleImputer(
+                                        strategy="most_frequent"
+                                    )
+                                ),
+                                (
+                                    "onehot",
+                                    OneHotEncoder(
+                                        handle_unknown="ignore"
+                                    )
+                                )
+                            ]),
+                            CAT_FEATURES
+                        )
+                    ],
+                    remainder="drop"
+                )
 
+                fold_model = Pipeline([
+                    ("preprocess", fold_preprocessor),
+                    (
+                        "rf",
+                        RandomForestRegressor(
+                            n_estimators=300,
+                            max_depth=3,
+                            min_samples_leaf=2,
+                            max_features=1.0,
+                            random_state=42,
+                            n_jobs=-1
+                        )
+                    )
+                ])
+
+                # Train and predict.
+                fold_model.fit(X_train, y_train)
                 fold_predictions = fold_model.predict(X_test)
 
                 paper_name = str(groups.iloc[test_idx[0]])
 
                 observed_all.extend(y_test.tolist())
-                predicted_all.extend(fold_predictions.tolist())
+                predicted_all.extend(
+                    fold_predictions.tolist()
+                )
 
+                # Save every held-out observation.
+                fold_observations = (
+                    validation_data.iloc[test_idx].copy()
+                )
+
+                fold_observations["Observed_qe_mg_g"] = (
+                    y_test.to_numpy()
+                )
+
+                fold_observations[
+                    "LOPO_predicted_qe_mg_g"
+                ] = fold_predictions
+
+                fold_observations[
+                    "Absolute_error_mg_g"
+                ] = np.abs(
+                    y_test.to_numpy() - fold_predictions
+                )
+
+                fold_observations["Held_out_paper"] = paper_name
+
+                observation_results.append(fold_observations)
+
+                # Calculate metrics for this paper.
                 paper_results.append({
                     "Held-out paper": paper_name,
                     "Test rows": len(test_idx),
@@ -939,6 +1060,7 @@ if st.button("Run Leave-One-Paper-Out Validation"):
                     )
                 })
 
+            # Calculate overall validation metrics.
             overall_mae = mean_absolute_error(
                 observed_all,
                 predicted_all
@@ -956,6 +1078,7 @@ if st.button("Run Leave-One-Paper-Out Validation"):
                 predicted_all
             )
 
+            # Give each paper equal weight in macro-average MAE.
             macro_mae = np.mean([
                 result["MAE (mg/g)"]
                 for result in paper_results
@@ -963,6 +1086,11 @@ if st.button("Run Leave-One-Paper-Out Validation"):
 
             st.success(
                 f"Validation completed across {number_of_papers} papers."
+            )
+
+            st.caption(
+                f"Dataset evaluated: {lopo_source} | "
+                f"Usable observations: {len(validation_data)}"
             )
 
             col1, col2 = st.columns(2)
@@ -990,14 +1118,16 @@ if st.button("Run Leave-One-Paper-Out Validation"):
             )
 
             st.warning(
-                "These results are exploratory. Performance may vary greatly "
-                "between papers, especially when the dataset is small or "
-                "the papers report very different adsorption capacities. "
-                "Do not interpret these metrics as proof of general "
-                "predictive accuracy."
+                "These results are exploratory. High errors or negative "
+                "R² indicate that the model may not generalise well to "
+                "unseen research papers. Verify the source data before "
+                "drawing research conclusions."
             )
 
-            st.subheader("Performance for each held-out paper")
+            # Show paper-level metrics.
+            st.subheader(
+                "Performance for each held-out paper"
+            )
 
             paper_results_df = pd.DataFrame(paper_results)
 
@@ -1008,12 +1138,81 @@ if st.button("Run Leave-One-Paper-Out Validation"):
             )
 
             st.download_button(
-                "Download LOPO validation results",
-                data=paper_results_df.to_csv(index=False).encode("utf-8"),
-                file_name="cuii_lopo_validation_results.csv",
+                "Download LOPO paper-summary results",
+                data=paper_results_df.to_csv(
+                    index=False
+                ).encode("utf-8"),
+                file_name="cuii_lopo_paper_summary.csv",
                 mime="text/csv",
                 key="download_lopo_results"
             )
 
+            # Combine individual predictions into one table.
+            observation_results_df = pd.concat(
+                observation_results,
+                ignore_index=True
+            )
+
+            st.subheader(
+                "🔎 Individual held-out predictions"
+            )
+
+            st.write(
+                "Each row represents an observation tested while its "
+                "entire source paper was excluded from training. Compare "
+                "the actual adsorption capacity with the prediction "
+                "to investigate large errors."
+            )
+
+            display_columns = [
+                col for col in [
+                    "Paper_ID",
+                    "Observed_qe_mg_g",
+                    "LOPO_predicted_qe_mg_g",
+                    "Absolute_error_mg_g",
+                    "pH",
+                    "Initial_Cu (mg/l)",
+                    "Contact_Time (min)",
+                    "Dose (g/L)",
+                    "Adsorbent_type",
+                    "Synthesis_method",
+                    "Held_out_paper"
+                ]
+                if col in observation_results_df.columns
+            ]
+
+            st.dataframe(
+                observation_results_df[display_columns],
+                use_container_width=True,
+                hide_index=True
+            )
+
+            # Download detailed predictions and errors.
+            st.download_button(
+                "⬇️ Download individual LOPO predictions and errors",
+                data=observation_results_df.to_csv(
+                    index=False
+                ).encode("utf-8"),
+                file_name="cuii_lopo_individual_predictions.csv",
+                mime="text/csv",
+                key="download_lopo_individual_results"
+            )
+
+            # Highlight the largest prediction errors.
+            st.subheader("⚠️ Largest prediction errors")
+
+            largest_errors = observation_results_df.sort_values(
+                "Absolute_error_mg_g",
+                ascending=False
+            ).head(10)
+
+            st.dataframe(
+                largest_errors[display_columns],
+                use_container_width=True,
+                hide_index=True
+            )
+
     except Exception as exc:
-        st.error(f"LOPO validation failed: {exc}")
+        st.error(
+            f"LOPO validation failed: {exc}"
+        )
